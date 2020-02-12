@@ -1,46 +1,35 @@
 import React from 'react';
 import Usercard from './Usercard';
+import FollowersList from './FollowersList';
 import axios from 'axios';
 import './App.css';
 
 class App extends React.Component {
   state = {
-    users: []
+    spotlight: []   
   }
 
   componentDidMount(){
     axios.get('https://api.github.com/users/kp1129')
     .then(res => {
-      this.setState({users: res.data});
+      this.setState({spotlight: res.data});
       
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log(err));  
+  }
 
-    
   
-  }
-
-  componentDidUpdate(){
-    axios.get('https://api.github.com/users/kp1129/followers')
-    .then(res => {
-      this.setState({users: [...this.state.users, res.data]});
-      console.log(this.state.users);
-    })
-    .catch(err => console.log(err));
-
-
-  }
 
   render(){
     return (
       <div>
-      <h1>hello!</h1>
+      <div className='spotlight'><Usercard data={this.state.spotlight} /></div>
       
-      {/* {this.state.users.map(each => (
-        <Usercard data={each} />
-      ))} */}
-      <Usercard data={this.state.users} />
-      {console.log(this.state.users)}
+      
+      
+
+
+      <FollowersList />
       </div>
     )
   }
